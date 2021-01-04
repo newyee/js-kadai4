@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
     genre.textContent = 'test'
     const difficulty = document.createElement('h2')
     titleText.insertBefore(titleText,genre.nextSibling)
-    titleText.insertBefore(genre,difficulty.nextSibling)
+    genre.insertBefore(genre,difficulty.nextSibling)
     console.log(results)
     titleText.textConent = '問題'
 
