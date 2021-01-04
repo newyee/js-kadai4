@@ -28,6 +28,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // console.log(data)
     return data
   }
+<<<<<<< HEAD
   // const getData = async () => {
   //   return new Promise(async (resolve, _reject) => {
   //     const respons = await fetch('https://opentdb.com/api.php?amount=10')
@@ -35,6 +36,8 @@ window.addEventListener('DOMContentLoaded', () => {
   //     resolve(data);
   //   })
   // }
+=======
+>>>>>>> ae6da6a9490e6b56c0592a68f879446161048ae1
 
 })
 
