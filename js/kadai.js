@@ -10,7 +10,15 @@ window.addEventListener('DOMContentLoaded', () => {
     descriptionText.textContent = '少々お待ち下さい'
     console.log('a')
     const responsData = await getQuizData()
-    console.log(responsData)
+    const results = responsData.results
+    const genre = document.createElement('h2')
+    genre.textContent = 'test'
+    const difficulty = document.createElement('h2')
+    titleText.insertBefore(titleText,genre.nextSibling)
+    titleText.insertBefore(genre,difficulty.nextSibling)
+    console.log(results)
+    titleText.textConent = '問題'
+
     console.log('b')
 
 
