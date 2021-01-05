@@ -13,9 +13,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const results = responsData.results
     const genre = document.createElement('h2')
     genre.textContent = 'test'
-    const difficulty = document.createElement('h2')
-    titleText.insertBefore(titleText,genre.nextSibling)
-    genre.insertBefore(genre,difficulty.nextSibling)
+    // const difficulty = document.createElement('h2')
+    titleText.insertBefore(genre,titleText.nextSibling)
+    // genre.insertBefore(genre,difficulty.nextSibling)
     console.log(results)
     titleText.textConent = '問題'
 
