@@ -11,16 +11,20 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log('a')
     const responsData = await getQuizData()
     const results = responsData.results
-    const genre = document.createElement('h2')
-    genre.textContent = 'test'
-    // const difficulty = document.createElement('h2')
-    titleText.insertBefore(genre,titleText.nextSibling)
-    // genre.insertBefore(genre,difficulty.nextSibling)
+    const genre = document.createElement('p')
+    genre.textContent = results[0].category
+    // genre.style.fontWeight = "normal";
+    genre.style.fontsize = "1rem"
+    const difficulty = document.createElement('p')
     console.log(results)
+    difficulty.textContent = results[0].difficulty
+    difficulty.style.fontWeight = "normal";
+    // console.log(genre)
+    // console.log(titleText)
+    // console.log(titleText.nextSibling)
+    titleText.insertBefore(genre,null)
+    genre.insertBefore(difficulty,null)
     titleText.textConent = '問題'
-
-    console.log('b')
-
 
     // console.log(await getData())
     // getData().then((value) => {
