@@ -34,8 +34,17 @@ window.addEventListener('DOMContentLoaded', () => {
     choiceList = shuffle(choiceList)
     console.log(choiceList)
     const bottomLine = document.getElementById('bottom_line')
+    let numberOfCorrectAnswers = 0
     for(let i = 0; i < choiceList.length; i++){
       let choiceButton = document.createElement('button')
+      choiceButton.addEventListener('click', () => {
+        console.log('選択ボタンクリック')
+        if (choiceButton.textContent == correctAnswer){
+          numberOfCorrectAnswers++
+        }
+        
+
+      })
       let br = document.createElement('br')
       choiceButton.textContent = choiceList[i]
       bottomLine.after(choiceButton)
