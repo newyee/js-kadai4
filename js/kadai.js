@@ -12,18 +12,15 @@ window.addEventListener('DOMContentLoaded', () => {
     const responsData = await getQuizData()
     const results = responsData.results
     const genre = document.createElement('p')
-    genre.textContent = results[0].category
-    // genre.style.fontWeight = "normal";
+    genre.textContent = '[ジャンル]' + results[0].category
+    genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
     const difficulty = document.createElement('p')
     console.log(results)
-    difficulty.textContent = results[0].difficulty
-    difficulty.style.fontWeight = "normal";
-    // console.log(genre)
-    // console.log(titleText)
-    // console.log(titleText.nextSibling)
-    titleText.insertBefore(genre,null)
-    genre.insertBefore(difficulty,null)
+    difficulty.textContent = '[難易度]' + results[0].difficulty
+    difficulty.style.fontWeight = "bold";
+    titleText.after(genre)
+    genre.after(difficulty)
     titleText.textConent = '問題'
 
     // console.log(await getData())
