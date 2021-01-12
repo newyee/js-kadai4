@@ -4,14 +4,18 @@ window.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start_button')
   const titleText = document.getElementById('title')
   const descriptionText = document.getElementById('description')
+  let numberOfCorrectAnswers = 0
   startButton.addEventListener('click', async () => {
     startButton.remove()
     titleText.textContent = '取得中'
     descriptionText.textContent = '少々お待ち下さい'
+    startQuiz()
+  })
+  const startQuiz = async () => {
     console.log('a')
     const responsData = await getQuizData()
     const results = responsData.results
-    console.log('aaa',results[0].incorrect_answers)
+    // console.log('aaa',results[0].incorrect_answers)
     const genre = document.createElement('p')
     genre.textContent = '[ジャンル]' + results[0].category
     genre.style.fontWeight = "bold";
@@ -34,28 +38,22 @@ window.addEventListener('DOMContentLoaded', () => {
     choiceList = shuffle(choiceList)
     console.log(choiceList)
     const bottomLine = document.getElementById('bottom_line')
-    let numberOfCorrectAnswers = 0
     for(let i = 0; i < choiceList.length; i++){
       let choiceButton = document.createElement('button')
       choiceButton.addEventListener('click', () => {
         console.log('選択ボタンクリック')
         if (choiceButton.textContent == correctAnswer){
           numberOfCorrectAnswers++
+          startQuiz()
         }
-        
-
       })
       let br = document.createElement('br')
       choiceButton.textContent = choiceList[i]
       bottomLine.after(choiceButton)
       bottomLine.after(br)
     }
-    // choiceButton1.textContent = results[0].correct_answer
-    // const bottomLine = document.getElementById('bottom_line')
-    // bottomLine.after(choiceButton1)
-    // console.log()
+  }
 
-  })
   const shuffle = ([...array]) => {
     for (let i = array.length - 1; i >= 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
