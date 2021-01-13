@@ -4,6 +4,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start_button')
   const titleText = document.getElementById('title')
   const descriptionText = document.getElementById('description')
+  const genre = document.createElement('p')
+  const difficulty = document.createElement('p')
+  const answerBox = document.createElement('div')
+  // const mainContent = document.getElementById('main_content')
+  const bottomLine = document.getElementById('bottom_line')
+
   let numberOfCorrectAnswers = 0
   startButton.addEventListener('click', async () => {
     startButton.remove()
@@ -16,11 +22,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const responsData = await getQuizData()
     const results = responsData.results
     // console.log('aaa',results[0].incorrect_answers)
-    const genre = document.createElement('p')
     genre.textContent = '[ジャンル]' + results[0].category
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
-    const difficulty = document.createElement('p')
     console.log(results)
     difficulty.textContent = '[難易度]' + results[0].difficulty
     difficulty.style.fontWeight = "bold";
@@ -28,8 +32,6 @@ window.addEventListener('DOMContentLoaded', () => {
     genre.after(difficulty)
     titleText.textContent = '問題'
     descriptionText.textContent = results[0].question
-    // const choiceButton1 = document.createElement('button')
-    // const choiceButton2 = document.createElement('button')
     let choiceList = results[0].incorrect_answers
     console.log('incorrect',choiceList)
     const correctAnswer = results[0].correct_answer
@@ -37,20 +39,32 @@ window.addEventListener('DOMContentLoaded', () => {
     choiceList.push(correctAnswer)
     choiceList = shuffle(choiceList)
     console.log(choiceList)
-    const bottomLine = document.getElementById('bottom_line')
     for(let i = 0; i < choiceList.length; i++){
       let choiceButton = document.createElement('button')
       choiceButton.addEventListener('click', () => {
         console.log('選択ボタンクリック')
         if (choiceButton.textContent == correctAnswer){
           numberOfCorrectAnswers++
-          startQuiz()
         }
+        // mainContent.remove()
+        while( answerBox.firstChild ){
+          answerBox.removeChild(answerBox.firstChild );
+        }
+        // answerBox.remove()
+        genre.remove()
+        difficulty.remove()
+        // br.remove()
+        // choiceButton.remove()
+        console.log('ok')
+        startQuiz()
       })
       let br = document.createElement('br')
       choiceButton.textContent = choiceList[i]
-      bottomLine.after(choiceButton)
-      bottomLine.after(br)
+      bottomLine.after(answerBox)
+      answerBox.appendChild(choiceButton)
+      answerBox.appendChild(br)
+      // bottomLine.after(choiceButton)
+      // bottomLine.after(br)
     }
   }
 
