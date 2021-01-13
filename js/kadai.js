@@ -7,28 +7,26 @@ window.addEventListener('DOMContentLoaded', () => {
   const genre = document.createElement('p')
   const difficulty = document.createElement('p')
   const answerBox = document.createElement('div')
-  // const mainContent = document.getElementById('main_content')
   const bottomLine = document.getElementById('bottom_line')
   let responsData = {}
   let resultCount = 0
-
+  let results = []
   let numberOfCorrectAnswers = 0
+  let resultLength = 0
   startButton.addEventListener('click', async () => {
     startButton.remove()
     titleText.textContent = '取得中'
     descriptionText.textContent = '少々お待ち下さい'
     responsData = await getQuizData()
-
+    results = responsData.results
+    resultLength = results.length
     startQuiz()
   })
   const startQuiz = async () => {
-    console.log('a')
-    const results = responsData.results
-    // console.log('aaa',results[0].incorrect_answers)
     genre.textContent = '[ジャンル]' + results[resultCount].category
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
-    console.log(results)
+    // console.log(results)
     difficulty.textContent = '[難易度]' + results[resultCount].difficulty
     difficulty.style.fontWeight = "bold";
     titleText.after(genre)
@@ -36,30 +34,33 @@ window.addEventListener('DOMContentLoaded', () => {
     titleText.textContent = '問題'
     descriptionText.textContent = results[resultCount].question
     let choiceList = results[resultCount].incorrect_answers
-    console.log('incorrect',choiceList)
     const correctAnswer = results[resultCount].correct_answer
-    console.log('correctAnswer',correctAnswer)
+    // console.log('correctAnswer',correctAnswer)
     choiceList.push(correctAnswer)
     choiceList = shuffle(choiceList)
-    console.log(choiceList)
     for(let i = 0; i < choiceList.length; i++){
       let choiceButton = document.createElement('button')
       choiceButton.addEventListener('click', () => {
-        console.log('選択ボタンクリック')
+        // console.log('選択ボタンクリック')
         resultCount += 1
         if (choiceButton.textContent == correctAnswer){
           numberOfCorrectAnswers++
         }
-        // mainContent.remove()
         while( answerBox.firstChild ){
           answerBox.removeChild(answerBox.firstChild );
         }
-        // answerBox.remove()
         genre.remove()
         difficulty.remove()
-        // br.remove()
-        // choiceButton.remove()
-        console.log('ok')
+        if (resultLength == resultCount){
+          titleText.textContent = "あなたの正当数は" + numberOfCorrectAnswers + "です"
+          descriptionText.textContent = "再度チャレンジしたい場合は以下のボタンをクリック！"
+          const homeButton = document.createElement("button")
+          homeButton.textContent = "ホームに戻る"
+          answerBox.appendChild(homeButton)
+          homeButton.addEventListener("click", () => {
+            location.reload();
+          })
+        }
         startQuiz()
       })
       let br = document.createElement('br')
@@ -67,8 +68,6 @@ window.addEventListener('DOMContentLoaded', () => {
       bottomLine.after(answerBox)
       answerBox.appendChild(choiceButton)
       answerBox.appendChild(br)
-      // bottomLine.after(choiceButton)
-      // bottomLine.after(br)
     }
   }
 
@@ -82,11 +81,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const getQuizData = async () => {
     const respons = await fetch('https://opentdb.com/api.php?amount=10')
     const data = await respons.json();
-    // console.log(data.results)
-    // console.log(data)
     return data
   }
-
 })
 
 
