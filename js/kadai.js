@@ -9,32 +9,35 @@ window.addEventListener('DOMContentLoaded', () => {
   const answerBox = document.createElement('div')
   // const mainContent = document.getElementById('main_content')
   const bottomLine = document.getElementById('bottom_line')
+  let responsData = {}
+  let resultCount = 0
 
   let numberOfCorrectAnswers = 0
   startButton.addEventListener('click', async () => {
     startButton.remove()
     titleText.textContent = '取得中'
     descriptionText.textContent = '少々お待ち下さい'
+    responsData = await getQuizData()
+
     startQuiz()
   })
   const startQuiz = async () => {
     console.log('a')
-    const responsData = await getQuizData()
     const results = responsData.results
     // console.log('aaa',results[0].incorrect_answers)
-    genre.textContent = '[ジャンル]' + results[0].category
+    genre.textContent = '[ジャンル]' + results[resultCount].category
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
     console.log(results)
-    difficulty.textContent = '[難易度]' + results[0].difficulty
+    difficulty.textContent = '[難易度]' + results[resultCount].difficulty
     difficulty.style.fontWeight = "bold";
     titleText.after(genre)
     genre.after(difficulty)
     titleText.textContent = '問題'
-    descriptionText.textContent = results[0].question
-    let choiceList = results[0].incorrect_answers
+    descriptionText.textContent = results[resultCount].question
+    let choiceList = results[resultCount].incorrect_answers
     console.log('incorrect',choiceList)
-    const correctAnswer = results[0].correct_answer
+    const correctAnswer = results[resultCount].correct_answer
     console.log('correctAnswer',correctAnswer)
     choiceList.push(correctAnswer)
     choiceList = shuffle(choiceList)
@@ -43,6 +46,7 @@ window.addEventListener('DOMContentLoaded', () => {
       let choiceButton = document.createElement('button')
       choiceButton.addEventListener('click', () => {
         console.log('選択ボタンクリック')
+        resultCount += 1
         if (choiceButton.textContent == correctAnswer){
           numberOfCorrectAnswers++
         }
