@@ -1,9 +1,11 @@
 'use strict'
 class Quiz{
-  constructor(genre,difficulty,question){
+  constructor(genre,difficulty,question,correctAnswer,incorrect_answers){
     this.genre = genre
     this.difficulty = difficulty
     this.question = question
+    this.choiceList = incorrect_answers
+    this.choiceList.push(correctAnswer)
   }
   get genre(){
     return this.genre
@@ -14,10 +16,14 @@ class Quiz{
   get question(){
     return this.genre
   }
+  shuffle ([...array]) {
+    for (let i = array.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 }
-
-
-
 window.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start_button')
   const titleText = document.getElementById('title')
@@ -42,6 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
     startQuiz()
   })
   const startQuiz = async () => {
+    // let oneQuestion = new Quiz(results[0].category,)
     genre.textContent = '[ジャンル]' + results[resultCount].category
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
