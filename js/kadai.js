@@ -1,4 +1,22 @@
 'use strict'
+class Quiz{
+  constructor(genre,difficulty,question){
+    this.genre = genre
+    this.difficulty = difficulty
+    this.question = question
+  }
+  get genre(){
+    return this.genre
+  }
+  get difficulty(){
+    return this.genre
+  }
+  get question(){
+    return this.genre
+  }
+}
+
+
 
 window.addEventListener('DOMContentLoaded', () => {
   const startButton = document.getElementById('start_button')
@@ -20,6 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
     responsData = await getQuizData()
     results = responsData.results
     resultLength = results.length
+
     startQuiz()
   })
   const startQuiz = async () => {
