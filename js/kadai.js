@@ -1,10 +1,12 @@
 'use strict'
 class Quiz{
-  constructor(genre,difficulty,question,correctAnswer,incorrect_answers){
+  constructor(genre,difficulty,question,correctAnswer,incorrectAnswers){
     this.quiz_genre = genre
     this.quiz_difficulty = difficulty
     this.quiz_question = question
-    this.quiz_choiceList = incorrect_answers
+    this.quiz_choiceList = incorrectAnswers
+    this.quiz_incorrectAnswers = incorrectAnswers
+    this.quiz_correctAnswer = correctAnswer
     this.quiz_choiceList.push(correctAnswer)
     this.quiz_choiceList = this.shuffle(this.quiz_choiceList)
   }
@@ -16,6 +18,12 @@ class Quiz{
   }
   get question(){
     return this.quiz_question
+  }
+  get correctAnswer(){
+    return this.quiz_correctAnswer
+  }
+  get choiceList(){
+    return this.quiz_choiceList
   }
   shuffle ([...array]) {
     for (let i = array.length - 1; i >= 0; i--) {
@@ -33,8 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const difficulty = document.createElement('p')
   const answerBox = document.createElement('div')
   const bottomLine = document.getElementById('bottom_line')
-  let responsData = {}
-  let resultCount = 0
+  let quizCount = 0
   let results = []
   let numberOfCorrectAnswers = 0
   let resultLength = 0
@@ -42,64 +49,63 @@ window.addEventListener('DOMContentLoaded', () => {
     startButton.remove()
     titleText.textContent = '取得中'
     descriptionText.textContent = '少々お待ち下さい'
-    responsData = await getQuizData()
+    const responsData = await getQuizData()
     results = responsData.results
     console.log('results',results)
     resultLength = results.length
-    let quiz_one = new Quiz(results[0].category,results[0].difficulty,results[0].question,results[0].correctAnswer,
+    const quiz_one = new Quiz(results[0].category,results[0].difficulty,results[0].question,results[0].correct_answer,
       results[0].incorrect_answers);
-    let quiz_two = new Quiz(results[1].category,results[1].difficulty,results[1].question,results[1].correctAnswer,
+    const quiz_two = new Quiz(results[1].category,results[1].difficulty,results[1].question,results[1].correct_answer,
       results[1].incorrect_answers);
-    let quiz_three = new Quiz(results[2].category,results[2].difficulty,results[2].question,results[2].correctAnswer,
+    const quiz_three = new Quiz(results[2].category,results[2].difficulty,results[2].question,results[2].correct_answer,
       results[2].incorrect_answers);
-    let quiz_four = new Quiz(results[3].category,results[3].difficulty,results[3].question,results[3].correctAnswer,
+    const quiz_four = new Quiz(results[3].category,results[3].difficulty,results[3].question,results[3].correct_answer,
       results[3].incorrect_answers);
-    let quiz_five = new Quiz(results[4].category,results[4].difficulty,results[4].question,results[4].correctAnswer,
+    const quiz_five = new Quiz(results[4].category,results[4].difficulty,results[4].question,results[4].correct_answer,
       results[4].incorrect_answers);
-    let quiz_six = new Quiz(results[5].category,results[5].difficulty,results[5].question,results[5].correctAnswer,
+    const quiz_six = new Quiz(results[5].category,results[5].difficulty,results[5].question,results[5].correct_answer,
       results[5].incorrect_answers);
-    let quiz_seven = new Quiz(results[6].category,results[6].difficulty,results[6].question,results[6].correctAnswer,
+    const quiz_seven = new Quiz(results[6].category,results[6].difficulty,results[6].question,results[6].correct_answer,
       results[6].incorrect_answers);
-    let quiz_eight = new Quiz(results[7].category,results[7].difficulty,results[7].question,results[7].correctAnswer,
+    const quiz_eight = new Quiz(results[7].category,results[7].difficulty,results[7].question,results[7].correct_answer,
       results[7].incorrect_answers);
-    let quiz_nine = new Quiz(results[8].category,results[8].difficulty,results[8].question,results[8].correctAnswer,
+    const quiz_nine = new Quiz(results[8].category,results[8].difficulty,results[8].question,results[8].correct_answer,
       results[8].incorrect_answers);
-    let quiz_ten = new Quiz(results[9].category,results[9].difficulty,results[9].question,results[9].correctAnswer,
+    const quiz_ten = new Quiz(results[9].category,results[9].difficulty,results[9].question,results[9].correct_answer,
       results[9].incorrect_answers);
-    startQuiz()
-
+    const quizData = [quiz_one,quiz_two,quiz_three,quiz_four,quiz_five,quiz_six,quiz_seven,quiz_eight,quiz_nine,quiz_ten]
+    // console.log('aaa',quizData[quizCount].choiceList[0])
+    startQuiz(quizData)
   })
-  const startQuiz = async () => {
-    // let oneQuestion = new Quiz(results[0].category,)
-    genre.textContent = '[ジャンル]' + results[resultCount].category
+
+  const startQuiz = async (quizData) => {
+    // console.log(quizData[quizCount].quiz_incorrectAnswers)
+    genre.textContent = '[ジャンル]' + quizData[quizCount].genre
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
-    // console.log(results)
-    difficulty.textContent = '[難易度]' + results[resultCount].difficulty
+    difficulty.textContent = '[難易度]' + quizData[quizCount].difficulty
     difficulty.style.fontWeight = "bold";
     titleText.after(genre)
     genre.after(difficulty)
     titleText.textContent = '問題'
-    descriptionText.textContent = results[resultCount].question
-    let choiceList = results[resultCount].incorrect_answers
-    const correctAnswer = results[resultCount].correct_answer
-    // console.log('correctAnswer',correctAnswer)
-    choiceList.push(correctAnswer)
-    choiceList = shuffle(choiceList)
-    for(let i = 0; i < choiceList.length; i++){
+    descriptionText.textContent = quizData[quizCount].question
+    for(let i = 0; i < quizData[quizCount].choiceList.length; i++){
+      if(typeof quizData[quizCount].choiceList[i] == 'undefined'){
+        break
+      }
       let choiceButton = document.createElement('button')
       choiceButton.addEventListener('click', () => {
         // console.log('選択ボタンクリック')
-        resultCount += 1
-        if (choiceButton.textContent == correctAnswer){
+        if (choiceButton.textContent == quizData[quizCount].correctAnswer){
           numberOfCorrectAnswers++
         }
+        quizCount += 1
         while( answerBox.firstChild ){
           answerBox.removeChild(answerBox.firstChild );
         }
         genre.remove()
         difficulty.remove()
-        if (resultLength == resultCount){
+        if (resultLength == quizCount){
           titleText.textContent = "あなたの正当数は" + numberOfCorrectAnswers + "です"
           descriptionText.textContent = "再度チャレンジしたい場合は以下のボタンをクリック！"
           const homeButton = document.createElement("button")
@@ -109,22 +115,14 @@ window.addEventListener('DOMContentLoaded', () => {
             location.reload();
           })
         }
-        startQuiz()
+        startQuiz(quizData)
       })
-      let br = document.createElement('br')
-      choiceButton.textContent = choiceList[i]
+      let p = document.createElement('p')
+      choiceButton.textContent = quizData[quizCount].choiceList[i]
       bottomLine.after(answerBox)
-      answerBox.appendChild(choiceButton)
-      answerBox.appendChild(br)
+      answerBox.appendChild(p)
+      p.appendChild(choiceButton)
     }
-  }
-
-  const shuffle = ([...array]) => {
-    for (let i = array.length - 1; i >= 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
   }
   const getQuizData = async () => {
     const respons = await fetch('https://opentdb.com/api.php?amount=10')
