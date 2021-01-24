@@ -51,7 +51,6 @@ window.addEventListener('DOMContentLoaded', () => {
     descriptionText.textContent = '少々お待ち下さい'
     const responsData = await getQuizData()
     results = responsData.results
-    console.log('results',results)
     resultLength = results.length
     const quiz_one = new Quiz(results[0].category,results[0].difficulty,results[0].question,results[0].correct_answer,
       results[0].incorrect_answers);
@@ -74,12 +73,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const quiz_ten = new Quiz(results[9].category,results[9].difficulty,results[9].question,results[9].correct_answer,
       results[9].incorrect_answers);
     const quizData = [quiz_one,quiz_two,quiz_three,quiz_four,quiz_five,quiz_six,quiz_seven,quiz_eight,quiz_nine,quiz_ten]
-    // console.log('aaa',quizData[quizCount].choiceList[0])
     startQuiz(quizData)
   })
 
   const startQuiz = async (quizData) => {
-    // console.log(quizData[quizCount].quiz_incorrectAnswers)
     genre.textContent = '[ジャンル]' + quizData[quizCount].genre
     genre.style.fontWeight = "bold";
     genre.style.fontsize = "1rem"
