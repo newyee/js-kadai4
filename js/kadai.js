@@ -94,29 +94,7 @@ window.addEventListener('DOMContentLoaded', () => {
         break
       }
       let choiceButton = document.createElement('button')
-      choiceButton.addEventListener('click', () => {
-        // console.log('選択ボタンクリック')
-        if (choiceButton.textContent == quizData[quizCount].correctAnswer){
-          numberOfCorrectAnswers++
-        }
-        quizCount += 1
-        while( answerBox.firstChild ){
-          answerBox.removeChild(answerBox.firstChild );
-        }
-        genre.remove()
-        difficulty.remove()
-        if (resultLength == quizCount){
-          titleText.textContent = "あなたの正当数は" + numberOfCorrectAnswers + "です"
-          descriptionText.textContent = "再度チャレンジしたい場合は以下のボタンをクリック！"
-          const homeButton = document.createElement("button")
-          homeButton.textContent = "ホームに戻る"
-          answerBox.appendChild(homeButton)
-          homeButton.addEventListener("click", () => {
-            location.reload();
-          })
-        }
-        startQuiz(quizData)
-      })
+      calcAnswer(choiceButton,quizData)
       let p = document.createElement('p')
       choiceButton.textContent = quizData[quizCount].choiceList[i]
       bottomLine.after(answerBox)
@@ -124,11 +102,34 @@ window.addEventListener('DOMContentLoaded', () => {
       p.appendChild(choiceButton)
     }
   }
+  const calcAnswer = (choiceButton,quizData) => {
+    choiceButton.addEventListener('click', () => {
+      // console.log('選択ボタンクリック')
+      if (choiceButton.textContent == quizData[quizCount].correctAnswer){
+        numberOfCorrectAnswers++
+      }
+      quizCount += 1
+      while( answerBox.firstChild ){
+        answerBox.removeChild(answerBox.firstChild );
+      }
+      genre.remove()
+      difficulty.remove()
+      if (resultLength == quizCount){
+        titleText.textContent = "あなたの正当数は" + numberOfCorrectAnswers + "です"
+        descriptionText.textContent = "再度チャレンジしたい場合は以下のボタンをクリック！"
+        const homeButton = document.createElement("button")
+        homeButton.textContent = "ホームに戻る"
+        answerBox.appendChild(homeButton)
+        homeButton.addEventListener("click", () => {
+          location.reload();
+        })
+      }
+      startQuiz(quizData)
+    })
+  }
   const getQuizData = async () => {
     const respons = await fetch('https://opentdb.com/api.php?amount=10')
     const data = await respons.json();
     return data
   }
 })
-
-
