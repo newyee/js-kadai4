@@ -72,8 +72,12 @@ window.addEventListener('DOMContentLoaded', () => {
       results[8].incorrect_answers);
     const quiz_ten = new Quiz(results[9].category,results[9].difficulty,results[9].question,results[9].correct_answer,
       results[9].incorrect_answers);
-    const quizData = [quiz_one,quiz_two,quiz_three,quiz_four,quiz_five,quiz_six,quiz_seven,quiz_eight,quiz_nine,quiz_ten]
-    startQuiz(quizData)
+    const quizData = [];
+    results.forEach((result) => {
+      quizData.push(new Quiz(result.category, result.difficulty, result.question,
+      result.correct_answer, result.incorrect_answers));
+    });
+    await startQuiz(quizData)
   })
 
   const startQuiz = async (quizData) => {
@@ -125,8 +129,12 @@ window.addEventListener('DOMContentLoaded', () => {
     })
   }
   const getQuizData = async () => {
-    const respons = await fetch('https://opentdb.com/api.php?amount=10')
-    const data = await respons.json();
-    return data
+    try {
+      const respons = await fetch('https://opentdb.com/api.php?amount=10')
+      const data = await respons.json();
+      return data
+    } catch (error) {
+      console.log(error)
+    }
   }
 })
