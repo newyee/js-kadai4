@@ -52,26 +52,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const responsData = await getQuizData()
     results = responsData.results
     resultLength = results.length
-    const quiz_one = new Quiz(results[0].category,results[0].difficulty,results[0].question,results[0].correct_answer,
-      results[0].incorrect_answers);
-    const quiz_two = new Quiz(results[1].category,results[1].difficulty,results[1].question,results[1].correct_answer,
-      results[1].incorrect_answers);
-    const quiz_three = new Quiz(results[2].category,results[2].difficulty,results[2].question,results[2].correct_answer,
-      results[2].incorrect_answers);
-    const quiz_four = new Quiz(results[3].category,results[3].difficulty,results[3].question,results[3].correct_answer,
-      results[3].incorrect_answers);
-    const quiz_five = new Quiz(results[4].category,results[4].difficulty,results[4].question,results[4].correct_answer,
-      results[4].incorrect_answers);
-    const quiz_six = new Quiz(results[5].category,results[5].difficulty,results[5].question,results[5].correct_answer,
-      results[5].incorrect_answers);
-    const quiz_seven = new Quiz(results[6].category,results[6].difficulty,results[6].question,results[6].correct_answer,
-      results[6].incorrect_answers);
-    const quiz_eight = new Quiz(results[7].category,results[7].difficulty,results[7].question,results[7].correct_answer,
-      results[7].incorrect_answers);
-    const quiz_nine = new Quiz(results[8].category,results[8].difficulty,results[8].question,results[8].correct_answer,
-      results[8].incorrect_answers);
-    const quiz_ten = new Quiz(results[9].category,results[9].difficulty,results[9].question,results[9].correct_answer,
-      results[9].incorrect_answers);
     const quizData = [];
     results.forEach((result) => {
       quizData.push(new Quiz(result.category, result.difficulty, result.question,
